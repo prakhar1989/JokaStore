@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block body %} 
+<div class="page-header">
+    <h1>Metadata  <small>Use this page to add details for Tshirts</small></h1>
+  </div>
+  <div class="row">
+      <form class="form-horizontal" method="POST">
+        <fieldset>
+          <div class="control-group">
+            <label class="control-label" for="select01">Select Tshirt</label>
+            <div class="controls">
+            <select id="select01" name="item_id">
+                {% for i in range(1,9) %}
+                <option>{{ i }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="input01">Title</label>
+            <div class="controls">
+              <input type="text" class="input-xlarge" id="input01" name="title">
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="input01">Price</label>
+            <div class="controls">
+              <input type="text" class="input-xlarge" id="input01" name="price">
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="textarea">Content</label>
+            <div class="controls">
+              <textarea class="input-xlarge" id="textarea" rows="3" name="content"></textarea>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Save changes</button>
+            <button class="btn">Cancel</button>
+          </div>
+        </fieldset>
+      </form>
+  </div>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block body %} 
+    <div class="row">
+        {% for i in range(1,5) %}
+        <div class="span3 tile">
+            <a href="#tshirt_detail_{{i}}" id="show_details_{{i}}"><img src="/static/img/{{ i }}.jpg" width="200px" height="auto" /></a>
+            <p class="lead"> {{ tshirts[i-1].title }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="row">
+        {% for i in range(5,9) %}
+        <div class="span3 tile">
+            <a href="#tshirt_detail_{{i}}" id="show_details_{{i}}"><img src="/static/img/{{ i }}.jpg" width="200px" height="auto" /></a>
+            <p class="lead"> {{ tshirts[i-1].title }}</p>
+        </div>
+        {% endfor %}
+    </div>
+
+
+{% for i in range(1,9) %}
+<div id="tshirt_detail_{{i}}" class="modal hide fade">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3>{{tshirts[i-1].title }} </h3>
+    </div>
+    <div class="modal-body">
+        <img src="/static/img/{{i}}.jpg">
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal" >Close</a>
+        <a href="#" class="btn btn-primary">Save Changes</a>
+    </div>
+</div>
+{% endfor %}    
+{% endblock %}

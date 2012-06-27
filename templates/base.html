@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset=UTF-8>
+    <title>Joka Store</title>
+    <!-- 1140px Grid styles for IE -->
+	<!--[if lte IE 9]><link rel="stylesheet" href="css/ie.css" type="text/css" media="screen" /><![endif]-->
+    <link rel=stylesheet href="/stylesheets/bootstrap.min.css">
+    <link rel=stylesheet href="/stylesheets/custom.css">
+    <script type="text/javascript">
+        //Add Google Analytics here
+    </script>
+        
+</head>
+<body lang="en">
+<div class="container">
+    {% block body %} {% endblock %}
+</div>
+<!-- FOOTER BEGINS HERE -->
+<footer>
+<nav>
+<ul class="footer">
+    <div class="container">
+        <ul>
+            <li><a href="#"><i class="icon-info-sign"></i> Help</a></li>
+            <li><a href="#"><i class="icon-question-sign"></i> About</a></li>
+            <li>Copyright &copy; 2012</li>
+        </ul>
+    </div>
+</ul>
+</nav>
+</footer>
+<!-- FOOTER ENDS HERE -->
+<script type="text/javascript" src="/js/jquery.js"></script>
+<script type="text/javascript" src="/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/bootstrap-modal.js"></script>
+<script>
+    {% for i in range(1, 9) %}
+        $('#show_details_{{i}}').click(function(){
+            console.log("#tshirt_detail_{{i}} called");
+            $('#tshirt_detail_{{i}}').modal();
+        });
+    {% endfor %}
+</script>
+</body>
+</html>
