@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset=UTF-8>
-    <title>Joka Store</title>
+    <title>Joka Store | Merchandise for real Jokars</title>
     <!-- 1140px Grid styles for IE -->
 	<!--[if lte IE 9]><link rel="stylesheet" href="css/ie.css" type="text/css" media="screen" /><![endif]-->
     <link rel=stylesheet href="/stylesheets/bootstrap.min.css">
@@ -10,10 +10,19 @@
     <script type="text/javascript">
         //Add Google Analytics here
     </script>
-        
 </head>
 <body lang="en">
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+        <a class="brand" href="/"><img src="/static/logo.png" alt="Joka Store"/></a>
+    </div>
+  </div>
+</div>
 <div class="container">
+  <div class="tagline">
+      <h1>Kickass Merchandise For Real Jokars!</h1>
+  </div>
     {% block body %} {% endblock %}
 </div>
 <!-- FOOTER BEGINS HERE -->
@@ -22,8 +31,8 @@
 <ul class="footer">
     <div class="container">
         <ul>
-            <li><a href="#"><i class="icon-info-sign"></i> Help</a></li>
-            <li><a href="#"><i class="icon-question-sign"></i> About</a></li>
+            <li><a href="/help"><i class="icon-info-sign"></i> Help</a></li>
+            <li><a href="/about"><i class="icon-question-sign"></i> About</a></li>
             <li>Copyright &copy; 2012</li>
         </ul>
     </div>

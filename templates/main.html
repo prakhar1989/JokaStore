@@ -25,7 +25,19 @@
         <h3>{{tshirts[i-1].title }} </h3>
     </div>
     <div class="modal-body">
-        <img src="/static/img/{{i}}.jpg">
+        <div class="thumb">
+            <img src="/static/img/{{i}}.jpg" width="350px" height="auto" \>
+        </div>
+        <div class="item_info">
+            <h4> {{ tshirts[i-1].title }} </h4>
+            <p> {{ tshirts[i-1].content }} </p>
+            <div class="cart_info">
+                <h6>Items in cart: <span id="cart_items" class="badge badge-info">10</span> </h6>
+                <button class = "btn btn-primary cart_btn">
+                    <i class="icon-shopping-cart"></i>  Add this to Cart!
+                </button>
+            </div>
+        </div>
     </div>
     <div class="modal-footer">
         <a href="#" class="btn" data-dismiss="modal" >Close</a>

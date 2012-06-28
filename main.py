@@ -103,8 +103,23 @@ class AddItemHandler(Handler):
                    price = int(self.item_price), 
                    content = self.item_content)
         p.put()
-        self.redirect('/')
+        self.redirect('/item/add')
 
+class ShowItemHandler(Handler):
+    def get(self, item_id):
+        tshirt = Tshirt.get_by_id(int(item_id))
+        self.render("show_tshirt.html", tshirt = tshirt)
+
+class AboutHandler(Handler):
+    def get(self):
+        pass
+
+class HelpHandler(Handler):
+    def get(self):
+        pass
 
 app = webapp2.WSGIApplication([('/', MainPage),
-                               ('/item/add', AddItemHandler)], debug=True)
+                               ('/item/add', AddItemHandler), 
+                               ('/about', AboutHandler),
+                               ('/help', HelpHandler),
+                               ('/tshirt/(\d+)', ShowItemHandler)], debug=True)
