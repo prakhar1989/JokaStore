@@ -4,7 +4,8 @@
     <h1>Metadata  <small>Use this page to add details for Tshirts</small></h1>
   </div>
   <div class="row">
-      <form class="form-horizontal" method="POST">
+      <div>
+      <form class="form-horizontal span8" method="POST">
         <fieldset>
           <div class="control-group">
             <label class="control-label" for="select01">Select Tshirt</label>
@@ -40,5 +41,13 @@
           </div>
         </fieldset>
       </form>
+  </div>
+      <div class="span4">
+          <ol>
+          {% for t in tshirts %}
+            <li> {{ t.title }} </li> 
+          {% endfor %}
+          </ol>
+      </div>
   </div>
 {% endblock %}

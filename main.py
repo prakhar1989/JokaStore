@@ -4,6 +4,7 @@ import webapp2
 import json
 import jinja2
 import datetime
+import logging
 from google.appengine.ext import db
 from google.appengine.api import memcache
 
@@ -75,6 +76,25 @@ class User(db.Model):
         if u and auth_helpers.valid_pw(name, pw, u.pw_hash):
             return u
 
+def get_tshirts(update = False):
+    key = "tee"
+    tshirts = memcache.get(key)
+    if tshirts is None or update:
+        logging.error("DB QUERY FOR TSHIRTS")
+        tshirts = db.GqlQuery("SELECT * FROM Tshirt ORDER BY tshirt_id")
+        tshirts = list(tshirts)
+        memcache.set(key, tshirts)
+    return tshirts
+
+def get_one_tshirt(item_id, update = False):
+    key = item_id 
+    tshirt = memcache.get(key)
+    if tshirt is None or update:
+        logging.error("DB QUERY FOR SINGLE TSHIRT")
+        tshirt = Tshirt.all().filter("tshirt_id =", int(item_id)).get()
+        memcache.set(key, tshirt)
+    return tshirt
+
 class Tshirt(db.Model):
     tshirt_id = db.IntegerProperty(required = True)
     title = db.StringProperty(required = True)
@@ -84,7 +104,7 @@ class Tshirt(db.Model):
 
 class MainPage(Handler):
     def get(self):
-        tshirts = db.GqlQuery("SELECT * FROM Tshirt ORDER BY tshirt_id")
+        tshirts = get_tshirts()
         self.render("main.html", tshirts = tshirts)
 
 
@@ -98,16 +118,36 @@ class AddItemHandler(Handler):
         self.item_price = self.request.get('price')
         self.item_content = self.request.get('content')
         
-        p = Tshirt(tshirt_id = int(self.item_id), 
+        t = Tshirt(tshirt_id = int(self.item_id), 
                    title = self.item_title, 
                    price = int(self.item_price), 
                    content = self.item_content)
-        p.put()
+        t.put()
         self.redirect('/item/add')
+
+class EditItemHandler(Handler):
+    def get(self):
+        db.query("DB QUERY FOR SINGLE TSHIRT")
+        tshirts = db.GqlQuery("SELECT * FROM Tshirt ORDER BY tshirt_id")
+        self.render("items_form.html", tshirts = tshirts)
+
+    def post(self):
+        self.item_id = self.request.get('item_id')
+        self.item_title = self.request.get('title')
+        self.item_price = self.request.get('price')
+        self.item_content = self.request.get('content')
+
+        tshirt = Tshirt.all().filter("tshirt_id =", int(self.item_id)).get()
+        tshirt.title = self.item_title
+        tshirt.content = self.item_content
+        tshirt.price = int(self.item_price)
+
+        tshirt.put()
+        self.redirect('/item/edit')
 
 class ShowItemHandler(Handler):
     def get(self, item_id):
-        tshirt = Tshirt.get_by_id(int(item_id))
+        tshirt = get_one_tshirt(item_id)
         self.render("show_tshirt.html", tshirt = tshirt)
 
 class AboutHandler(Handler):
@@ -120,6 +160,7 @@ class HelpHandler(Handler):
 
 app = webapp2.WSGIApplication([('/', MainPage),
                                ('/item/add', AddItemHandler), 
+                               ('/item/edit', EditItemHandler), 
                                ('/about', AboutHandler),
                                ('/help', HelpHandler),
                                ('/tshirt/(\d+)', ShowItemHandler)], debug=True)
