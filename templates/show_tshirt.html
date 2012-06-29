@@ -1,23 +1,49 @@
 {% extends "base.html" %}
 {% block body %} 
 <div class="row">
-    <div class="span6">
+    <div class="span6 left_sidebar">
+        <h3> {{ tshirt.title }} </h3>
         <img src="/static/img/{{ tshirt.tshirt_id }}.jpg" />
-    </div>
-    <div class="span6">
-        <h1> {{ tshirt.title }} </h1>
         <p> {{ tshirt.content }} </p>
     </div>
-        <div id="disqus_thread"></div>
-        <script type="text/javascript">
-            var disqus_shortname = 'jokastore';
-            (function() {
-                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-                dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
-                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-            })();
-        </script>
-        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    <div class = "span6 right_sidebar">
+        <div class="row">
+            <div id="order_details" class="span3">
+                <ul class="nav nav-pills size_btn">
+                    <li class="active"><a href="#">S</a></li>
+                    <li><a href="#">M</a></li>
+                    <li><a href="#">L</a></li>
+                    <li><a href="#">XL</a></li>
+                </ul>
+                <div class="input-prepend">
+                    Quantity <input type="text" name="qty" class="input-mini" />
+                </div>
+                <div class="add_to_cart">
+                    <button class = "btn btn-primary btn-large cart_btn">
+                        <i class="icon-shopping-cart"></i>  Add this to Cart!
+                    </button>
+                </div>
+            </div>
+            <div id="likes_summary" class="span2">
+                <div class="fb-like" data-href="http://jokastore.appspot.com/tshirt/{{tshirt.tshirt_id}}" data-send="false" data-layout="box_count" data-width="450" data-show-faces="false"></div> 
+                <a href="https://twitter.com/share" class="twitter-share-button" data-lang="en" data-url="http://jokastore.appspot.com/tshirt/{{tshirt.tshirt_id}}" 
+                    data-text="Checkout this awesome Tshirt at Jokastore" data-count="vertical">Tweet</a>
+                <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+            </div>
+        </div>
+            <div id="comments_section">
+                <div id="disqus_thread"></div>
+                <script type="text/javascript">
+                 var disqus_shortname = 'jokastore';
+                  (function() {
+                      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                      dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+                      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                  })();
+                </script>
+                <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+            </div>
+    </div>
 </div>
 {% endblock %}

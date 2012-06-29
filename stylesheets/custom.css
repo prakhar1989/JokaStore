@@ -8,8 +8,21 @@ img::-moz-selection	{background: transparent;}
 body {
     background: url('../static/purty_wood.png') repeat;
     padding-top: 100px;
+    color: #516066;
 }
 
+.btn-primary{
+    background: #516066;
+    border: 0px;
+}
+
+.btn-primary:hover {
+    background: #687b83;
+}
+
+a {
+    color: #516066;
+}
 .navbar-inner {
     background: #F0F0F2;
     height: 60px;
@@ -24,7 +37,7 @@ body {
     text-transform: uppercase;
 }
 
-.row {
+.tshirt_array_top{
     margin-bottom: 40px;
 }
 
@@ -48,9 +61,6 @@ body {
     font-weight: 700;
     color: #AD9C9C;
     margin-bottom: -4px;
-}
-
-.fb-like {
 }
 
 .tile img{
@@ -83,6 +93,74 @@ body {
     padding: 0px 20px;
 }
 
+/* TSHIRT PAGE */
+.left_sidebar, .right_sidebar{
+    background-color: white;
+    box-shadow: 0 1px 3px rgba(34, 25, 25, 0.4);
+    -moz-box-shadow: 0 1px 2px rgba(34,25,25,0.4);
+    -webkit-box-shadow: 0 1px 3px rgba(34, 25, 25, 0.4);
+}
+
+.left_sidebar h3{
+    margin: 15px 0px;
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 1;
+    padding: 10px 20px;
+}
+
+.left_sidebar img{
+    padding: 0 20px;
+    width: 420px;
+}
+.left_sidebar p {
+    border-top: double rgba(34, 25, 25, 0.14);
+    padding: 10px 20px;
+    font-size: 12px;
+    margin-top: 20px;
+}
+
+.right_sidebar {
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+#order_details {
+    padding: 30px 30px 20px 30px;
+    width: 160px;
+}
+
+#order_details .nav-pills > .active > a, .nav-pills > .active > a:hover {
+    background: #516066;
+}
+
+.size_btn ul li a {
+    color: #516066;
+}
+
+.fb-like {
+    width: 70px;
+}
+
+#likes_summary {
+    background: #F0F0F2;
+    padding: 20px;
+    margin: 30px 30px;
+}
+
+#comments_section {
+    border-top: double rgba(34, 25, 25, 0.14);
+    padding: 20px;
+}
+
+#likes_summary ul li{
+    list-style-type: none;
+    border-border: 1px solid #DDD
+    margin: 10px 0px;
+    
+}
+
 .cart_info {
     margin-top: 30px;
     padding: 20px;
@@ -91,6 +169,8 @@ body {
 .cart_btn {
     margin-top: 10px;
 }
+
+/* FOOTER */
 footer {
     margin-top: 40px;
     padding: 15px 0;

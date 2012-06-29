@@ -1,14 +1,11 @@
 {% extends "base.html" %}
 {% block body %} 
-    <div class="row">
+    <div class="row tshirt_array_top">
         {% for i in range(1,5) %}
         <div class="span3 tile">
             <a href="#tshirt_detail_{{i}}" id="show_details_{{i}}"><img src="/static/img/{{ i }}.jpg" width="200px" height="auto" /></a>
             <div class="grey_bar">
                 <p class="lead"> {{ tshirts[i-1].title }}</p>
-                <!-- <div class="fb-like" data-href="http://jokastore.appspot.com/tshirt/{{i}}" data-send="false" --> 
-                <!--      data-layout="button_count" data-width="50" --> 
-                <!--      data-show-faces="false" data-font="arial"></div> -->
              </div>
         </div>
         {% endfor %}
@@ -19,9 +16,6 @@
             <a href="#tshirt_detail_{{i}}" id="show_details_{{i}}"><img src="/static/img/{{ i }}.jpg" width="200px" height="auto" /></a>
             <div class="grey_bar">
                 <p class="lead"> {{ tshirts[i-1].title }}</p>
-                <!-- <div class="fb-like" data-href="http://jokastore.appspot.com/tshirt/{{i}}" data-send="false" --> 
-                <!--      data-layout="button_count" data-width="50" --> 
-                <!--      data-show-faces="false" data-font="arial"></div> -->
              </div>
         </div>
         {% endfor %}
@@ -43,10 +37,7 @@
             <div> {{ tshirts[i-1].content | safe }} </div>
 
             <div class="cart_info">
-                <!-- <h6>Items in cart: <span id="cart_items" class="badge badge-info">10</span> </h6> -->
-                <!-- <button class = "btn btn-primary cart_btn"> -->
-                <!--     <i class="icon-shopping-cart"></i>  Add this to Cart! -->
-                <!-- </button> -->
+                <a href="/tshirt/{{i}}">Order Now!</a>
             </div>
         </div>
     </div>
