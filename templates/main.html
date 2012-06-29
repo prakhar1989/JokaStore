@@ -3,7 +3,7 @@
     <div class="row tshirt_array_top">
         {% for i in range(1,5) %}
         <div class="span3 tile">
-            <a href="#tshirt_detail_{{i}}" id="show_details_{{i}}"><img src="/static/img/{{ i }}.jpg" width="200px" height="auto" /></a>
+            <a href="/tshirt/{{i}}" id="show_details_{{i}}"><img src="/static/img/{{ i }}.jpg" width="200px" height="auto" /></a>
             <div class="grey_bar">
                 <p class="lead"> {{ tshirts[i-1].title }}</p>
              </div>
@@ -13,38 +13,11 @@
     <div class="row">
         {% for i in range(5,9) %}
         <div class="span3 tile">
-            <a href="#tshirt_detail_{{i}}" id="show_details_{{i}}"><img src="/static/img/{{ i }}.jpg" width="200px" height="auto" /></a>
+            <a href="/tshirt/{{i}}" id="show_details_{{i}}"><img src="/static/img/{{ i }}.jpg" width="200px" height="auto" /></a>
             <div class="grey_bar">
                 <p class="lead"> {{ tshirts[i-1].title }}</p>
              </div>
         </div>
         {% endfor %}
     </div>
-
-
-{% for i in range(1,9) %}
-<div id="tshirt_detail_{{i}}" class="modal hide fade">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h3>{{tshirts[i-1].title }} </h3>
-    </div>
-    <div class="modal-body">
-        <div class="thumb">
-            <img src="/static/img/{{i}}.jpg" width="350px" height="auto" \>
-        </div>
-        <div class="item_info">
-            <h4> {{ tshirts[i-1].title }} </h4>
-            <div> {{ tshirts[i-1].content | safe }} </div>
-
-            <div class="cart_info">
-                <a href="/tshirt/{{i}}">Order Now!</a>
-            </div>
-        </div>
-    </div>
-    <div class="modal-footer">
-        <a href="#" class="btn" data-dismiss="modal" >Close</a>
-        <!-- <a href="#" class="btn btn-primary">Save Changes</a> -->
-    </div>
-</div>
-{% endfor %}    
 {% endblock %}

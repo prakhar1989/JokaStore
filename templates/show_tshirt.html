@@ -4,7 +4,7 @@
     <div class="span6 left_sidebar">
         <h3> {{ tshirt.title }} </h3>
         <img src="/static/img/{{ tshirt.tshirt_id }}.jpg" />
-        <p> {{ tshirt.content }} </p>
+        <p> {{ tshirt.content | safe}} </p>
     </div>
     <div class = "span6 right_sidebar">
         <div class="row">

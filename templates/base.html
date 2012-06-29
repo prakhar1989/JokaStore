@@ -33,7 +33,17 @@
 <div class="navbar navbar-fixed-top">
   <div class="navbar-inner">
     <div class="container">
-        <a class="brand" href="/"><img src="/static/logo.png" alt="Joka Store"/></a>
+        <a class="brand" href="/">joka store</a>
+        <ul class="nav">
+            <li><a class="cart" href="/cart">Cart (<span class="itemCount">10<span>)</a></li>
+        </ul>
+        <ul class="nav pull-right login_list">
+            {% if not logged_in %}
+                <li><a href="/login">Login</a></li>
+            {% else %}
+            <li><a href="/logout">Logout ( {{ logged_in.nickname() }} )</a></li>
+            {% endif %}
+        </ul>
     </div>
   </div>
 </div>

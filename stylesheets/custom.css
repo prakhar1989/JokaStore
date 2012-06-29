@@ -20,9 +20,47 @@ body {
     background: #687b83;
 }
 
+.brand {
+    text-indent: -10000px;
+    background: url('/static/logo.png') 0px 5px no-repeat;
+    width: 200px;
+    height: 45px;
+}
+
+
 a {
     color: #516066;
 }
+
+.navbar .nav > li > a{
+    margin-top: 15px;
+    font-size: 11px;
+    text-transform: uppercase;
+    background: #516066;
+    font-weight: bold;
+    border-radius: 3px;
+    color: white;
+    padding: 2px 8px;
+}
+.navbar .nav > li > a:hover {
+    font-size: 11px;
+    text-transform: uppercase;
+    background: #516066;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.cart {
+    margin-left: 200px;
+    margin-top: 10px;
+    background: url('/static/logo.png') -450px -11px no-repeat !important;
+    height: 65px;
+    width: 102px;
+    text-align: right;
+    font-size: 14px !important;
+    color: #516066 !important;
+}
+
 .navbar-inner {
     background: #F0F0F2;
     height: 60px;
