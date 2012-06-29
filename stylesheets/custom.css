@@ -6,7 +6,7 @@ img::selection 		{background: transparent;}
 img::-moz-selection	{background: transparent;}
 
 body {
-    background: url('../static/purty_wood.png') repeat;
+    background: url('../static/purty_wood.jpg') repeat;
     padding-top: 100px;
     color: #516066;
 }
