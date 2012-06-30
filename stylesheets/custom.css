@@ -27,9 +27,17 @@ body {
     height: 45px;
 }
 
+#disqus_thread{
+    margin-top: 30px;
+}
 
 a {
     color: #516066;
+}
+
+.about a {
+    color: #516066;
+    text-decoration: underline;
 }
 
 .navbar .nav > li > a{
@@ -55,7 +63,7 @@ a {
     margin-top: 10px;
     background: url('/static/logo.png') -450px -11px no-repeat !important;
     height: 65px;
-    width: 102px;
+    width: 112px;
     text-align: right;
     font-size: 14px !important;
     color: #516066 !important;
@@ -71,8 +79,19 @@ a {
 .tagline {
     text-align: center;
     color: #516066;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     text-transform: uppercase;
+}
+
+#notice{
+    text-align: center;
+    text-transform: uppercase;
+    background: #F0F0F2;
+    padding: 15px 5px;
+    border-radius: 3px;
+    width: 500px;
+    margin: 0px auto;
+    margin-bottom: 30px;
 }
 
 .tshirt_array_top{
@@ -139,6 +158,10 @@ a {
     -webkit-box-shadow: 0 1px 3px rgba(34, 25, 25, 0.4);
 }
 
+#addition_details {
+    margin-top: 5px;
+}
+
 .left_sidebar h3{
     margin: 15px 0px;
     font-weight: 700;
@@ -166,7 +189,7 @@ a {
 
 #order_details {
     padding: 30px 30px 20px 30px;
-    width: 160px;
+    width: 200px;
 }
 
 #order_details .nav-pills > .active > a, .nav-pills > .active > a:hover {
@@ -184,7 +207,7 @@ a {
 #likes_summary {
     background: #F0F0F2;
     padding: 20px;
-    margin: 30px 30px;
+    margin: 30px 10px;
 }
 
 #comments_section {
@@ -208,29 +231,51 @@ a {
     margin-top: 10px;
 }
 
+/* CHECKOUT PAGE */
+
+.cart_summary {
+    margin-top: 20px;
+    padding: 30px;
+    background-color: white;
+    box-shadow: 0 1px 3px rgba(34, 25, 25, 0.4);
+    -moz-box-shadow: 0 1px 2px rgba(34,25,25,0.4);
+    -webkit-box-shadow: 0 1px 3px rgba(34, 25, 25, 0.4);
+}
+.checkout_btns ul li {
+    list-style-type: none;
+    margin: 20px !important;
+}
+
+.checkout_btns ul {
+    margin: 0px !important;
+}
+
+
 /* FOOTER */
 footer {
-    margin-top: 40px;
+    margin-top: 100px;
     padding: 15px 0;
     text-align: center;
     font-weight: bold;
     border: double rgba(34, 25, 25, 0.14);
     border-width: 3px 0;
+    text-align: centre;
 }
 
-footer ul li{
-    list-style-type: none;
-    float: left;
-    margin-right: 50px;
+/* ABOUT */
+.about {
+    background-color: white;
+    padding: 40px;
+    box-shadow: 0 1px 3px rgba(34, 25, 25, 0.4);
+    -moz-box-shadow: 0 1px 2px rgba(34,25,25,0.4);
+    -webkit-box-shadow: 0 1px 3px rgba(34, 25, 25, 0.4);
 }
 
-footer ul li:last-child {
-    float: right;
-    color: #516066;
+.description{
+    margin: 40px;
 }
 
-footer ul li a{
-    color: #516066;
+.description h2{
+    border-bottom: double rgba(34, 25, 25, 0.14);
+    margin-bottom: 10px;
 }
-
-

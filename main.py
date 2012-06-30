@@ -8,13 +8,16 @@ import logging
 from google.appengine.ext import db
 from google.appengine.api import memcache
 from google.appengine.api import users
+from webapp2_extras import sessions
 
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir),
                                autoescape = True)
-sys.path.append(os.path.join(os.path.dirname(__file__), 'lib'))
-
-import auth_helpers
+### Configuration ###
+config = {}
+config['webapp2_extras.sessions'] = {
+    'secret_key': 'my-super-secret-key',
+}
 
 ### BASE HANDLER CLASS ###
 class Handler(webapp2.RequestHandler):
@@ -27,52 +30,46 @@ class Handler(webapp2.RequestHandler):
 
     def render(self, template, **kw):
         self.write(self.render_str(template, 
-                    logged_in = users.get_current_user(), **kw))
+                    logged_in = users.get_current_user(),
+                    item_count = self.session.get('item_count'),**kw))
 
-    def set_secure_cookie(self, name, val):
-        cookie_val = auth_helpers.make_secure_val(val)
-        self.response.headers.add_header(
-                'Set-Cookie', "%s=%s; Path=/" % (name, cookie_val))
+    def dispatch(self):
+        self.session_store = sessions.get_store(request=self.request)
+        try:
+            webapp2.RequestHandler.dispatch(self)
+        finally:
+            self.session_store.save_sessions(self.response)
 
-    def read_secure_cookie(self, name):
-        cookie_val = self.request.cookies.get(name)
-        return cookie_val and auth_helpers.check_secure_val(cookie_val)
+    @webapp2.cached_property
+    def session(self):
+        return self.session_store.get_session()
 
-    # def login(self, user):
-    #     self.set_secure_cookie('user_id', str(user.key().id()))
+    def get_items_from_cart(self):
+        """ Fetches items from sessions cart"""
+        item_list = []
+        cart_count = self.session.get('add_to_cart_count')
+        if not cart_count: return None;
+        for i in range(1, cart_count+1):
+            item = self.session.get(str(i))
+            if item:
+                item_list.append(item)
+        return item_list
 
-    # def logout(self):
-    #     self.response.headers.add_header('Set-Cookie', 'user_id=; Path=/')
+### MODELS ###
+class Tshirt(db.Model):
+    tshirt_id = db.IntegerProperty(required = True)
+    title = db.StringProperty(required = True)
+    price = db.IntegerProperty()
+    content = db.TextProperty()
 
-    def remove_secure_cookie(self, name):
-         self.response.headers.add_header('Set-Cookie', '%s=; Path=/' % name)
+class Order(db.Model):
+    qty = db.IntegerProperty(required = True)
+    size = db.StringProperty(required = True)
+    tshirt_id = db.IntegerProperty(required = True)
+    user_email = db.StringProperty(required = True)
+    time_of_order = db.DateTimeProperty(auto_now_add = True)
 
-    def initialize(self, *a, **kw):
-        webapp2.RequestHandler.initialize(self, *a, **kw)
-        # uid = self.read_secure_cookie('user_id')
-        # self.user = uid and User.by_id(int(uid))
-        user_logged = users.get_current_user()
-        if user_logged:
-            self.user_logged_in = user_logged.nickname()
-            self.user_logged_in_email = user_logged.email()
-        else: 
-            self.user_logged_in = None
-
-### AUTH STUFF ###
-class User(db.Model):
-    username = db.StringProperty(required = True)
-    email = db.StringProperty(required = True)
-
-    @classmethod
-    def by_id(cls, uid):
-        return User.get_by_id(uid)
-
-    @classmethod
-    def by_name(cls, name):
-        u = User.all().filter('username =', name).get()
-        return u
-
-
+### CACHING ###
 def get_tshirts(update = False):
     key = "tee"
     tshirts = memcache.get(key)
@@ -92,13 +89,7 @@ def get_one_tshirt(item_id, update = False):
         memcache.set(key, tshirt)
     return tshirt
 
-class Tshirt(db.Model):
-    tshirt_id = db.IntegerProperty(required = True)
-    title = db.StringProperty(required = True)
-    price = db.IntegerProperty()
-    content = db.TextProperty()
-    votes =  db.IntegerProperty()
-
+### CONTROLLERS ###
 class MainPage(Handler):
     def get(self):
         tshirts = get_tshirts()
@@ -108,9 +99,8 @@ class LoginHandler(Handler):
     def get(self):
         user = users.get_current_user()
         if user:
-            # self.response.headers['Content-Type'] = 'text/plain'
-            # self.response.out.write(user)
-            # self.set_secure_cookie("cartItems", "20")
+            self.session["item_count"] = 0
+            self.session["add_to_cart_count"] = 0
             self.redirect('/')
         else:
             self.redirect(users.create_login_url(self.request.uri))
@@ -120,23 +110,79 @@ class ShowItemHandler(Handler):
         tshirt = get_one_tshirt(item_id)
         self.render("show_tshirt.html", tshirt = tshirt)
 
-class HelpHandler(Handler):
+class AboutHandler(Handler):
     def get(self):
-        self.write("hello, %s" % self.user_logged_in)
+        self.render("about.html")
 
 class SecureHandler(Handler):
     def get(self):
-        if self.user_logged_in:
-            self.write("Welcome to secure page. Cookie value = %s" 
-                        % self.read_secure_cookie("cartItems"))
+        if users.get_current_user():
+            self.write("Welcome to secure page. session value= %s" % self.session.get("foo"))
         else:
             self.write("you need to login to see this page")
 
 class LogoutHandler(Handler):
     def get(self):
-        self.remove_secure_cookie("cartItems")
+        self.response.headers.add_header('Set-Cookie', 'session=; Path=/')
         self.redirect(users.create_logout_url('/'))
 
+class AddToCartHandler(Handler):
+    def get(self):
+        if users.get_current_user():
+            self.response.headers['Content-type'] = 'application/json'
+            get_current_add_count = int(self.session.get('add_to_cart_count'))
+            tshirt_id = self.request.get("tshirt_id")
+            item_title = self.request.get("item_title")
+            qty = self.request.get("qty")
+            size = self.request.get("size")
+            price = 325
+            get_current_add_count += 1
+            self.session[get_current_add_count] = { "qty" : qty, "size" : size ,
+                                                    "item_title": item_title, 
+                                                    "tshirt_id" : tshirt_id,
+                                                    "cost" : price * int(qty)}
+
+            current_cart_items = int(self.session.get("item_count"))
+            updated_cart_items = current_cart_items + int(qty)
+            self.session["item_count"] = updated_cart_items
+            self.session["add_to_cart_count"] = get_current_add_count
+            self.write(json.dumps({"status" : 1, "msg" : "Order added. <a href='/cart'><span class='label label-success'>View Cart</span></a>"}))
+        else:
+            self.write(json.dumps({"status" : 0, "msg" : "Please <a href='/login'><span class='label label-important'>login</span> </a>to start shopping!"}))
+
+
+class CartHandler(Handler):
+    def get(self):
+        item_list = self.get_items_from_cart()
+        self.render('show_cart.html', item_list = item_list)
+
+class CheckoutHandler(Handler):
+    def get(self):
+        item_list = self.get_items_from_cart()
+        user = users.get_current_user()
+        if user:
+            user_email = user.email()
+            if item_list:
+                for i in item_list:
+                    order = Order(qty = int(i["qty"]), 
+                                  user_email = user_email,
+                                  size = i["size"],
+                                  tshirt_id = int(i["tshirt_id"]))
+                    order.put()
+                    logging.error("Attempt to put in database")
+            else:
+                logging.error("Updation to Order Model missed")
+        else:
+            self.redirect('/')
+        logging.error("Order Added for user: %s" % user.email())
+        self.session["add_to_cart_count"] = 0
+        self.redirect('/done')
+
+class DoneHandler(Handler):
+    def get(self):
+        self.response.headers.add_header('Set-Cookie', 'session=; Path=/')
+        self.write("Your order has been recorded. You shortly hear from us regarding payment and delivery details. Thanks for ordering. <a href='/'>Continue shopping</a>")
+        
 ### ADMIN FUNCTIONS ### - Not protected currently
 class AddItemHandler(Handler):
     def get(self):
@@ -157,8 +203,7 @@ class AddItemHandler(Handler):
 
 class EditItemHandler(Handler):
     def get(self):
-        db.query("DB QUERY FOR SINGLE TSHIRT")
-        tshirts = db.GqlQuery("SELECT * FROM Tshirt ORDER BY tshirt_id")
+        tshirts = get_tshirts()
         self.render("items_form.html", tshirts = tshirts)
 
     def post(self):
@@ -181,6 +226,10 @@ app = webapp2.WSGIApplication([('/', MainPage),
                                ('/login', LoginHandler), 
                                ('/item/add', AddItemHandler), 
                                ('/item/edit', EditItemHandler), 
-                               ('/help', HelpHandler),
+                               ('/cart/add', AddToCartHandler),
+                               ('/about', AboutHandler),
+                               ('/done', DoneHandler),
+                               ('/cart', CartHandler),
+                               ('/checkout', CheckoutHandler),
                                ('/secure', SecureHandler),
-                               ('/tshirt/(\d+)', ShowItemHandler)], debug=True)
+                               ('/tshirt/(\d+)', ShowItemHandler)], config=config, debug=True)

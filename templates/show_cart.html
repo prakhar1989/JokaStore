@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block body %} 
+{% if item_list %}
+    <h2>Cart Summary</h2>
+<div class="row">
+    <div class="span7 cart_summary">
+        <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Tshirt</th>
+            <th>Quantity</th>
+            <th>Size</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for item in item_list %}
+          <tr>
+            <td>{{ item["item_title"] }}</td>
+            <td>{{ item["qty"] }} </td>
+            <td>{{ item["size"] }}</td>
+            <td>{{ item["cost"] }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+        </table>
+    </div>
+    <div class="span4 checkout_btns">
+        <ul>
+            <li><a href="/checkout" class="btn btn-large btn-primary">Confirm Order &rarr; </a></li>
+            <li><a href="/" class="btn btn-large btn-primary">Continue Shopping </a></li>
+        <ul>
+    </div>
+</div>
+{% else %}
+<h3>Your shopping cart is empty :( </h3>
+{% endif %}
+{% endblock %}

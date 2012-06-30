@@ -2,26 +2,27 @@
 {% block body %} 
 <div class="row">
     <div class="span6 left_sidebar">
-        <h3> {{ tshirt.title }} </h3>
-        <img src="/static/img/{{ tshirt.tshirt_id }}.jpg" />
+        <h3 class="product_title"> {{ tshirt.title }} </h3>
+        <img class="main_img" data-tshirt_id="{{tshirt.tshirt_id}}" src="/static/img/{{ tshirt.tshirt_id }}.jpg" />
         <p> {{ tshirt.content | safe}} </p>
     </div>
     <div class = "span6 right_sidebar">
         <div class="row">
             <div id="order_details" class="span3">
                 <ul class="nav nav-pills size_btn">
-                    <li class="active"><a href="#">S</a></li>
-                    <li><a href="#">M</a></li>
-                    <li><a href="#">L</a></li>
-                    <li><a href="#">XL</a></li>
+                    <li class="active"><a href="#" data-size="S">S</a></li>
+                    <li><a href="#" data-size="M">M</a></li>
+                    <li><a href="#" data-size="L">L</a></li>
+                    <li><a href="#" data-size="XL">XL</a></li>
+                    <li><a href="#" data-size="XXL">XXL</a></li>
                 </ul>
                 <div class="input-prepend">
-                    Quantity <input type="text" name="qty" class="input-mini" />
+                    Quantity <input type="text" id="qty_input" class="input-mini" />
                 </div>
                 <div class="add_to_cart">
-                    <button class = "btn btn-primary btn-large cart_btn">
-                        <i class="icon-shopping-cart"></i>  Add this to Cart!
-                    </button>
+                    <a href="/cart" class = "btn btn-primary btn-large cart_btn">Add this to Cart!</a>
+                </div>
+                <div id="addition_details">
                 </div>
             </div>
             <div id="likes_summary" class="span2">
@@ -32,6 +33,7 @@
             </div>
         </div>
             <div id="comments_section">
+                <h3>Discuss This Design</h3>
                 <div id="disqus_thread"></div>
                 <script type="text/javascript">
                  var disqus_shortname = 'jokastore';

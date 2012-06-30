@@ -3,45 +3,52 @@
 <head>
 	<meta charset=UTF-8>
     <title>Joka Store | Merchandise for real Jokars</title>
-    <!-- 1140px Grid styles for IE -->
 	<!--[if lte IE 9]><link rel="stylesheet" href="css/ie.css" type="text/css" media="screen" /><![endif]-->
     <link rel=stylesheet href="/stylesheets/bootstrap.min.css">
     <link rel=stylesheet href="/stylesheets/custom.css">
     <script type="text/javascript">
+          var _gaq = _gaq || [];
+          _gaq.push(['_setAccount', 'UA-33006210-1']);
+          _gaq.push(['_trackPageview']);
 
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-33006210-1']);
-      _gaq.push(['_trackPageview']);
-
-      (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
-
+          (function() {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+          })();
     </script>
 </head>
 <body lang="en">
 <div id="fb-root"></div>
-<script>(function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
-      js = d.createElement(s); js.id = id;
-      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=197244620403228";
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));</script>
+<script>
+    (function(d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) return;
+          js = d.createElement(s); js.id = id;
+          js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=197244620403228";
+          fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
 <div class="navbar navbar-fixed-top">
   <div class="navbar-inner">
     <div class="container">
         <a class="brand" href="/">joka store</a>
         <ul class="nav">
-            <li><a class="cart" href="/cart">Cart (<span class="itemCount">10<span>)</a></li>
+            <li><a class="cart" href="/cart">Cart ( 
+                <span class="itemCount">
+                    {% if item_count %}
+                        {{ item_count }}
+                    {% else %}
+                        {{ 0 }}
+                    {% endif %}
+                </span>)
+        </a></li>
         </ul>
         <ul class="nav pull-right login_list">
             {% if not logged_in %}
-                <li><a href="/login">Login</a></li>
+                <li><a href="/login">Login with Gmail</a></li>
             {% else %}
-            <li><a href="/logout">Logout ( {{ logged_in.nickname() }} )</a></li>
+            <li><a href="/logout">Logout ( {{ logged_in.nickname()}} )</a></li>
             {% endif %}
         </ul>
     </div>
@@ -51,33 +58,23 @@
   <div class="tagline">
       <h1>Kickass Merchandise For Real Jokars!</h1>
   </div>
-    {% block body %} {% endblock %}
+  <div id="notice">
+      <h5><a href="/about#faq">No credit cards needed. Confirm orders without payment.</a></h5>
+  </div>
+   {% block body %} {% endblock %}
 </div>
 <!-- FOOTER BEGINS HERE -->
 <footer>
 <nav>
 <ul class="footer">
     <div class="container">
-        <ul>
-            <li><a href="/help"><i class="icon-info-sign"></i> Help</a></li>
-            <li>Handcrafted in <del>China</del> Joka</li>
-            <li>Copyright &copy; 2012</li>
-        </ul>
+            <a href="/about">About</a>    |      Handcrafted in <del>China</del> Joka     |     Copyright &copy; 2012
     </div>
 </ul>
 </nav>
 </footer>
 <!-- FOOTER ENDS HERE -->
-<script type="text/javascript" src="/js/jquery.js"></script>
-<script type="text/javascript" src="/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="/js/bootstrap-modal.js"></script>
-<script>
-    {% for i in range(1, 9) %}
-        $('#show_details_{{i}}').click(function(){
-            console.log("#tshirt_detail_{{i}} called");
-            $('#tshirt_detail_{{i}}').modal();
-        });
-    {% endfor %}
-</script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script type="text/javascript" src="/js/application.js"></script>
 </body>
 </html>
