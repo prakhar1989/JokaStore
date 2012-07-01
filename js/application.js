@@ -28,19 +28,4 @@ $(function(){
         });
         return false;
     });
-
-    // Compiling Handlebars templates
-
-    var source = $("#item_template").html();
-    var template = Handlebars.compile(source);
-
-    $('.template_trigger').click(function(){
-        $.get('/all.json', function(data){
-            $.each(data, function(i, val) {
-                var context = { id: val["id"], title: val["title"] }
-                var html = template(context);
-                $('#top').append(html);
-            });
-        });
-    });
 });
