@@ -2,7 +2,8 @@
 {% block body %} 
 <div class="row">
     <div class="span6 left_sidebar">
-        <h3 class="product_title"> {{ tshirt.title }} </h3>
+        <h3 class="product_title" style="float: left;"> {{ tshirt.title }} </h3>
+        <h3 style="float: right;"><span class="WebRupee">Rs.</span> 325 </h3>
         <img class="main_img" data-tshirt_id="{{tshirt.tshirt_id}}" src="/static/img/{{ tshirt.tshirt_id }}.jpg" />
         <p> {{ tshirt.content | safe}} </p>
     </div>
@@ -18,6 +19,7 @@
                 </ul>
                 <div class="input-prepend">
                     Quantity <input type="text" id="qty_input" class="input-mini" />
+                         <a href="http://dl.dropbox.com/u/9555677/size_chart.jpg" target="_blank" title="Download Size Chart"><i class="icon-download-alt"></i></a>
                 </div>
                 <div class="add_to_cart">
                     <a href="/cart" class = "btn btn-primary btn-large cart_btn">Add this to Cart!</a>

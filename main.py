@@ -232,4 +232,4 @@ app = webapp2.WSGIApplication([('/', MainPage),
                                ('/cart', CartHandler),
                                ('/checkout', CheckoutHandler),
                                ('/secure', SecureHandler),
-                               ('/tshirt/(\d+)', ShowItemHandler)], config=config, debug=True)
+                               ('/tshirt/(\d+)', ShowItemHandler)], config=config)

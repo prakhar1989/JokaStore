@@ -279,3 +279,7 @@ footer {
     border-bottom: double rgba(34, 25, 25, 0.14);
     margin-bottom: 10px;
 }
+
+.product_title {
+    float: left;
+}
