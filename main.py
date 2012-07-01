@@ -252,5 +252,4 @@ app = webapp2.WSGIApplication([('/', AnotherMainPage),
                                ('/all.json', JSONHandler),
                                ('/checkout', CheckoutHandler),
                                ('/secure', SecureHandler),
-                               ('/tshirt/(\d+)', ShowItemHandler)], config=config, debug = True)
-# REMOVE DEBUG BEFORE RUNNING INTO PRODUCTION
+                               ('/tshirt/(\d+)', ShowItemHandler)], config=config)
