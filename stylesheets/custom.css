@@ -94,10 +94,6 @@ a {
     margin-bottom: 30px;
 }
 
-.tshirt_array_top{
-    margin-bottom: 40px;
-}
-
 .tile{
     font-size: 11px;
     padding: 10px 0px;
@@ -105,6 +101,7 @@ a {
     box-shadow: 0 1px 3px rgba(34, 25, 25, 0.4);
     -moz-box-shadow: 0 1px 2px rgba(34,25,25,0.4);
     -webkit-box-shadow: 0 1px 3px rgba(34, 25, 25, 0.4);
+    margin-bottom: 40px;
 }
 
 .grey_bar{
@@ -253,7 +250,7 @@ a {
 
 /* FOOTER */
 footer {
-    margin-top: 100px;
+    margin-top: 80px;
     padding: 15px 0;
     text-align: center;
     font-weight: bold;

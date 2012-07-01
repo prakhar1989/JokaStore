@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block include_template %}
+{% raw %}
+<script src="http://cloud.github.com/downloads/wycats/handlebars.js/handlebars-1.0.0.beta.6.js" type="text/javascript"></script>
+<script id="item_template" type="text/x-handlebars-template">
+<div class="span3 tile">
+    <a href="/tshirt/{{id}}" id="show_details_{{id}}"><img src="/static/img/{{ id }}.jpg" width="200px" height="213px" /></a>
+    <div class="grey_bar">
+        <p class="lead"> {{ title }}</p>
+    </div>
+</div>
+</script>
+<script type='text/javascript'>
+    // Compiling Handlebars templates
+    var source = $("#item_template").html();
+    var template = Handlebars.compile(source);
+    $.get('/all.json', function(data){
+        $.each(data, function(i, val) {
+            var context = { id: val["id"], title: val["title"] }
+            var html = template(context);
+            $('#top').append(html);
+        });
+    });
+</script>
+{% endraw %}
+{% endblock %}
+{% block body %} 
+    <div class="row" id="top"> </div>
+{% endblock %}

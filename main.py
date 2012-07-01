@@ -91,9 +91,27 @@ def get_one_tshirt(item_id, update = False):
 
 ### CONTROLLERS ###
 class MainPage(Handler):
+    """ This is the main page which uses server-side templating
+    to display all items. Use this in emergency by changing routing 
+    mappings. Currently mapped to /mainpage"""
     def get(self):
         tshirts = get_tshirts()
         self.render("main.html", tshirts = tshirts)
+
+class AnotherMainPage(Handler):
+    """ This is the main page which uses client-side handlebars 
+    for templating. Currently mapped to /"""
+    def get(self):
+        self.render("main2.html")
+
+class JSONHandler(Handler):
+    def get(self):
+        tshirts = get_tshirts()
+        self.response.headers['Content-type'] = 'application/json'
+        tshirt_json = []
+        for t in tshirts:
+            tshirt_json.append({"id": t.tshirt_id, "title": t.title})
+        self.write(json.dumps(tshirt_json))
 
 class LoginHandler(Handler):
     def get(self):
@@ -221,7 +239,7 @@ class EditItemHandler(Handler):
         self.redirect('/item/edit')
 
 
-app = webapp2.WSGIApplication([('/', MainPage),
+app = webapp2.WSGIApplication([('/', AnotherMainPage),
                                ('/logout', LogoutHandler),
                                ('/login', LoginHandler), 
                                ('/item/add', AddItemHandler), 
@@ -229,7 +247,10 @@ app = webapp2.WSGIApplication([('/', MainPage),
                                ('/cart/add', AddToCartHandler),
                                ('/about', AboutHandler),
                                ('/done', DoneHandler),
+                               ('/mainpage', MainPage),
                                ('/cart', CartHandler),
+                               ('/all.json', JSONHandler),
                                ('/checkout', CheckoutHandler),
                                ('/secure', SecureHandler),
-                               ('/tshirt/(\d+)', ShowItemHandler)], config=config)
+                               ('/tshirt/(\d+)', ShowItemHandler)], config=config, debug = True)
+# REMOVE DEBUG BEFORE RUNNING INTO PRODUCTION
