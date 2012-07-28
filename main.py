@@ -9,6 +9,7 @@ from google.appengine.ext import db
 from google.appengine.api import memcache
 from google.appengine.api import users
 from webapp2_extras import sessions
+from google.appengine.api import mail
 
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir),
@@ -95,7 +96,7 @@ class MainPage(Handler):
     to display all items. Use this in emergency by changing routing 
     mappings. Currently mapped to /mainpage"""
     def get(self):
-        tshirts = get_tshirts()
+        tshirts = get_tshirts(update = True)
         self.render("main.html", tshirts = tshirts)
 
 class AnotherMainPage(Handler):
@@ -106,7 +107,7 @@ class AnotherMainPage(Handler):
 
 class JSONHandler(Handler):
     def get(self):
-        tshirts = get_tshirts()
+        tshirts = get_tshirts(True)
         self.response.headers['Content-type'] = 'application/json'
         tshirt_json = []
         for t in tshirts:
@@ -239,7 +240,22 @@ class EditItemHandler(Handler):
         self.redirect('/item/edit')
 
 
-app = webapp2.WSGIApplication([('/', AnotherMainPage),
+class EmailHandler(Handler):
+    def get(self):
+        sender_address = "prakhar1989@gmail.com"
+        user_address = "kumarar2013@iimcal.ac.in"
+        subject = "Hi, from Jokastore"
+        body = "Thanks for purchasing from Jokastore"
+        mail.send_mail(sender_address, user_address, subject, body)
+
+
+class ListOrdersHandler(Handler):
+    def get(self):
+        orders = db.GqlQuery("SELECT * FROM Order ORDER BY time_of_order")
+        self.response.headers['Content-type'] = 'text/plain'
+        self.render("list_orders.html", orders = orders)
+
+app = webapp2.WSGIApplication([('/', MainPage),
                                ('/logout', LogoutHandler),
                                ('/login', LoginHandler), 
                                ('/item/add', AddItemHandler), 
@@ -251,5 +267,7 @@ app = webapp2.WSGIApplication([('/', AnotherMainPage),
                                ('/cart', CartHandler),
                                ('/all.json', JSONHandler),
                                ('/checkout', CheckoutHandler),
+                               ('/sendmail', EmailHandler),
+                               ('/listorders', ListOrdersHandler),
                                ('/secure', SecureHandler),
-                               ('/tshirt/(\d+)', ShowItemHandler)], config=config)
+                               ('/tshirt/(\d+)', ShowItemHandler)], config=config, debug=True)
